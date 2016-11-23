@@ -1,6 +1,8 @@
-
 package View;
 
+import java.awt.AWTEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.AWTException;
 import java.awt.Image;
 import java.awt.MenuItem;
@@ -10,23 +12,27 @@ import java.awt.Toolkit;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.InputMap;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
 
 public class Formulario_JFrame extends javax.swing.JFrame {
 
     SystemTray sysTray = SystemTray.getSystemTray();
-    Image          img = Toolkit.getDefaultToolkit().createImage("C:/Users/rodps/Downloads/signing.png");
-    PopupMenu  sysMenu = new PopupMenu();
-    TrayIcon  trayIcon = new TrayIcon(img,"Ramais",sysMenu);
-    MenuItem abrir      = new MenuItem("Abrir Lista de Ramais");
-    
+    Image img = Toolkit.getDefaultToolkit().createImage("C:/Users/rodps/Downloads/signing.png");
+    PopupMenu sysMenu = new PopupMenu();
+    TrayIcon trayIcon = new TrayIcon(img, "Ramais", sysMenu);
+    MenuItem abrir = new MenuItem("Abrir Lista de Ramais");
+    // private JButton button;
+
     public Formulario_JFrame() {
         initComponents();
-        
+
     }
-    
-    
-    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -96,33 +102,45 @@ public class Formulario_JFrame extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        try{
+        try {
             sysTray.add(trayIcon);
-            
+
             this.dispose();
-            
+
             sysMenu.add(abrir);
-            
-            
-             abrir.addActionListener(new ActionListener(){
-         public void actionPerformed(ActionEvent e){
-         
-                 new Formulario_JFrame().setVisible(true);  
-            
-         }
-        });
-            
-            
-            } catch(AWTException e) {
-                
-              System.out.println("System Tray não suportada!");
-            
-            }
-        
-        
-       
-        
-        
+
+            abrir.addActionListener(new ActionListener() {
+
+                public void actionPerformed(ActionEvent e) {
+
+                    new Formulario_JFrame().setVisible(true);
+
+                }
+            });
+
+            KeyStroke stroke = KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD0, 0);
+
+            Action actionListener = new AbstractAction() {
+                @Override
+                public void actionPerformed(ActionEvent evt) {
+
+                    JOptionPane.showMessageDialog(null, "Teste");
+                }
+            };
+
+            InputMap inputMap = this.getRootPane().getInputMap(
+                    JComponent.WHEN_FOCUSED);
+            inputMap.put(stroke, "ATIVA");
+
+            this.getRootPane().getActionMap().put("ATIVA", actionListener);
+
+        } catch (AWTException e) {
+
+            System.out.println("System Tray não suportada!");
+
+        }
+
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -141,7 +159,7 @@ public class Formulario_JFrame extends javax.swing.JFrame {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    javax.swing.UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel");
                     break;
                 }
             }
